@@ -6,7 +6,11 @@ const Sentiment = ({ text, sentimentValue }) => {
 }
 
 const Statistics = ({ good, bad, neutral }) => {
+  
   let all = good + bad + neutral
+  if (all === 0){
+    return <p>No feedback given</p>
+  }
   return (<div><Sentiment text={"good"} sentimentValue={good} />
     <Sentiment text={"neutral"} sentimentValue={neutral} />
     <Sentiment text={"bad"} sentimentValue={bad} />
