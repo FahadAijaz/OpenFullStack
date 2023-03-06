@@ -3,7 +3,7 @@ import Total from "./Total"
 import Header from "./Header"
 
 const App = () => {
-  const course = 'Half Stack application development'
+  const name = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
   const exercises1 = 10
   const part2 = 'Using props to pass data'
@@ -12,9 +12,10 @@ const App = () => {
   const exercises3 = 14
   const parts = [{ name: part1, exercises: exercises1 },
   { name: part2, exercises: exercises2 }, { name: part3, exercises: exercises3 }]
+  const course = { name: name, parts: parts }
   return (
     <div>
-      <Header course={course} />
+      <Header course={course.name} />
       <Content exerciseList={parts} />
       <Total parts={parts} />
     </div>
