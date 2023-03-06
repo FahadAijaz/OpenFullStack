@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css';
 
-const Sentiment = ({ text, sentimentValue }) => {
+const StatisticLine = ({ text, sentimentValue }) => {
   return (<p>{text} {sentimentValue}</p>)
 }
 // exercise 1.10 is already complete
@@ -11,12 +11,12 @@ const Statistics = ({ good, bad, neutral }) => {
   if (all === 0){
     return <p>No feedback given</p>
   }
-  return (<div><Sentiment text={"good"} sentimentValue={good} />
-    <Sentiment text={"neutral"} sentimentValue={neutral} />
-    <Sentiment text={"bad"} sentimentValue={bad} />
-    <Sentiment text={"all"} sentimentValue={all} />
-    <Sentiment text={"average"} sentimentValue={(good * 1 + bad * -1) / all} />
-    <Sentiment text={"positive"} sentimentValue={(good / all) * 100} />
+  return (<div><StatisticLine text={"good"} sentimentValue={good} />
+    <StatisticLine text={"neutral"} sentimentValue={neutral} />
+    <StatisticLine text={"bad"} sentimentValue={bad} />
+    <StatisticLine text={"all"} sentimentValue={all} />
+    <StatisticLine text={"average"} sentimentValue={(good * 1 + bad * -1) / all} />
+    <StatisticLine text={"positive"} sentimentValue={(good / all) * 100} />
   </div>)
 }
 const App = () => {
