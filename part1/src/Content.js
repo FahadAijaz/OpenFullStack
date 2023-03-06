@@ -1,7 +1,8 @@
+import Part from "./Part"
 const Content = (props) => {
     const exerciseP =
         props.exerciseList.map((e) =>
-            <p>{e.part} {e.exercises}</p>)
+            <Part part={e.part} exercises={e.exercises}/>)
 
     return (<div>{exerciseP}</div >)
 }
