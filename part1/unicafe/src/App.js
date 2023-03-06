@@ -4,7 +4,7 @@ import './App.css';
 const Sentiment = ({ text, sentimentValue }) => {
   return (<p>{text} {sentimentValue}</p>)
 }
-
+// exercise 1.10 is already complete
 const Statistics = ({ good, bad, neutral }) => {
   
   let all = good + bad + neutral
