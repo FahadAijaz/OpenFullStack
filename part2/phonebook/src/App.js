@@ -37,7 +37,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Phonebook newName={newName} newNumber={newNumber} addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange ={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Numbers persons={persons}/>
+      <Numbers persons={persons} setPersons={setPersons}/>
     </div>
   )
 }
