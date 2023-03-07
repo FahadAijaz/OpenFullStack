@@ -1,10 +1,7 @@
-
-
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Numbers from './Numbers'
 import Phonebook from './Phonebook'
-import create  from './http'
+import httpMethods  from './http'
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -13,12 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    httpMethods.getAll().then(r => setPersons(r))
   }, [])
   
   const addPerson = (event) => {
@@ -29,7 +21,7 @@ const App = () => {
       return
     }
     const person = { name: newName, number: newNumber }
-    create(person)
+    httpMethods.create(person)
     setPersons(persons.concat(person))
   }
 
