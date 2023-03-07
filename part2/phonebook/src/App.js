@@ -1,26 +1,21 @@
-
-
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Numbers from './Numbers'
 import Phonebook from './Phonebook'
-
+import httpMethods from './http'
+import "./index.css"
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
+
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    httpMethods.getAll().then(r => setPersons(r))
   }, [])
-  
+
   const addPerson = (event) => {
     event.preventDefault()
     const personExists = persons.some(p => p.name === newName)
@@ -28,7 +23,12 @@ const App = () => {
       alert(`${newName} is already added to the phonebook`)
       return
     }
-    setPersons(persons.concat({ name: newName, number: newNumber }))
+    const person = { name: newName, number: newNumber }
+    httpMethods.create(person).then(r => {
+      setPersons(persons.concat(person))
+      setErrorMessage(`Added ${person.name}`)
+    })
+
   }
 
   const handleNameChange = (event) => {
@@ -41,9 +41,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Phonebook newName={newName} newNumber={newNumber} addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange ={handleNumberChange}/>
+      <Phonebook newName={newName} newNumber={newNumber} addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} errorMessage={errorMessage} />
       <h2>Numbers</h2>
-      <Numbers persons={persons}/>
+      <Numbers persons={persons} setPersons={setPersons} />
     </div>
   )
 }
