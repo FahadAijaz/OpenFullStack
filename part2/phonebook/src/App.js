@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Numbers from './Numbers'
 import Phonebook from './Phonebook'
-
+import create  from './http'
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -28,7 +28,9 @@ const App = () => {
       alert(`${newName} is already added to the phonebook`)
       return
     }
-    setPersons(persons.concat({ name: newName, number: newNumber }))
+    const person = { name: newName, number: newNumber }
+    create(person)
+    setPersons(persons.concat(person))
   }
 
   const handleNameChange = (event) => {
