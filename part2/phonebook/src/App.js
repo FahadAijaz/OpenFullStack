@@ -12,10 +12,12 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {
-      name: newName
+    const personExists = persons.some(p => p.name === newName)
+    if (personExists) {
+      alert(`${newName} is already added to the phonebook`)
+      return
     }
-    setPersons(persons.concat(personObject))
+    setPersons(persons.concat({ name: newName }))
   }
 
   const handlePersonChange = (event) => {
@@ -25,9 +27,8 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
-        
         <div>
-          name: <input value={newName} onChange={handlePersonChange}/>
+          name: <input value={newName} onChange={handlePersonChange} />
         </div>
         <div>
           <button type="submit">add</button>
