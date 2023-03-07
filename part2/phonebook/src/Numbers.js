@@ -8,7 +8,6 @@ const deletePerson = (persons, person, setPersons) => {
         })
 }
 const Numbers = ({ persons, setPersons }) => {
-
     return (<div>{persons.map(p => {
         return <p>{p.name} {p.number} <button type="submit" onClick={() => deletePerson(persons, p, setPersons)}>delete</button></p>
     })}</div>)
