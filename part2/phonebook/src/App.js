@@ -2,7 +2,8 @@
 
 
 import { useState } from 'react'
-
+import Numbers from './Numbers'
+import Phonebook from './Phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -31,19 +32,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Phonebook newName={newName} newNumber={newNumber} addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange ={handleNumberChange}/>
       <h2>Numbers</h2>
-      <div>{persons.map(p => <p>{p.name} {p.number}</p>)}</div>
+      <Numbers persons={persons}/>
     </div>
   )
 }
