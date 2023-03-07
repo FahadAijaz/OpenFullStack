@@ -8,7 +8,7 @@ const Course = (props) =>{
         <div>
           <Header course={course.name} />
           <Content exerciseList={course.parts} />
-          {/* <Total parts={course.parts} /> */}
+          <Total parts={course.parts} />
         </div>
       )
 }
