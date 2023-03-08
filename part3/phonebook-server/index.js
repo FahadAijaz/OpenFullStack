@@ -66,9 +66,19 @@ app.post('/api/persons/', (req, res) => {
     const newId = Math.floor(Math.random() * 1000)
     const name = req.body.name
     const number = req.body.number
-    const newPerson = {name: name, number: number, id: newId}
-    persons.push(newPerson)
-    res.json(newPerson)
+    if (!name || !number) {
+        res.status(400).send({error: 'name must be unique'})
+        return
+    } else {
+        const personExists = persons.find(p => p.name == name)
+        if (personExists) {
+            res.status(400).send({error: 'name must be unique'})
+            return
+        }
+        const newPerson = {name: name, number: number, id: newId}
+        persons.push(newPerson)
+        res.json(newPerson)
+    }
 })
 
 const PORT = 3001
