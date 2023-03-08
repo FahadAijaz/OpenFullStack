@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const cors = require("cors")
-const persons =
+let persons =
     [
         {
             "id": 1,
@@ -46,6 +46,19 @@ app.get('/api/persons/:id', (request, response) => {
         response.json(person)
     } else {
         response.sendStatus(404)
+    }
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+    const id = req.params.id
+    const oldLen = persons.length
+    persons = persons.filter(p => p.id != id)
+    const newLen = persons.length
+    if (oldLen != newLen){
+        res.sendStatus(200)
+    }
+    else{
+        res.sendStatus(404)
     }
 })
 
