@@ -26,6 +26,7 @@ let persons =
     ]
 
 app.use(cors())
+app.use(express.json())
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
@@ -54,12 +55,20 @@ app.delete('/api/persons/:id', (req, res) => {
     const oldLen = persons.length
     persons = persons.filter(p => p.id != id)
     const newLen = persons.length
-    if (oldLen != newLen){
+    if (oldLen != newLen) {
         res.sendStatus(200)
-    }
-    else{
+    } else {
         res.sendStatus(404)
     }
+})
+
+app.post('/api/persons/', (req, res) => {
+    const newId = Math.floor(Math.random() * 1000)
+    const name = req.body.name
+    const number = req.body.number
+    const newPerson = {name: name, number: number, id: newId}
+    persons.push(newPerson)
+    res.json(newPerson)
 })
 
 const PORT = 3001

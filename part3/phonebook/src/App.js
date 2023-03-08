@@ -25,6 +25,7 @@ const App = () => {
     }
     const person = { name: newName, number: newNumber }
     httpMethods.create(person).then(r => {
+      console.log(r)
       setPersons(persons.concat(person))
       setErrorMessage(`Added ${person.name}`)
     })
