@@ -9,7 +9,7 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -25,6 +25,7 @@ const App = () => {
     }
     const person = { name: newName, number: newNumber }
     httpMethods.create(person).then(r => {
+      console.log(r)
       setPersons(persons.concat(person))
       setErrorMessage(`Added ${person.name}`)
     })
