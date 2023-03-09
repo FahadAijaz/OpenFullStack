@@ -42,12 +42,13 @@ app.get('/api/blogs', async (request, response) => {
 
 
 app.post('/api/blogs', async (request, response) => {
-    const blog = new Blog(request.body)
+
     const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
     const user = await User.findById(decodedToken.id)
+    const blog = new Blog({...request.body, user: new User({username: user.username, name: user.name, id: user._id})})
     const created = await createBlog(blog);
     if(created){
       response.json(blog)
