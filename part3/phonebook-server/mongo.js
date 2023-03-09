@@ -21,6 +21,9 @@ const Person = mongoose.model('Person', personSchema)
 const  findAllPersons = async () => {
     return Person.find({})
 };
+const findPersonById = async (id) => {
+    return Person.find({id: id})
+}
 const createPerson = async ({name, number}) => {
     const newPerson = new Person({name, number})
     await newPerson.save()
@@ -28,4 +31,4 @@ const createPerson = async ({name, number}) => {
 const deletePerson = async (id) => {
     return Person.deleteOne({id: id})
 }
-module.exports = {Person, findAllPersons, createPerson, deletePerson}
+module.exports = {Person, findAllPersons, createPerson, deletePerson, findPersonById}

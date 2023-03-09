@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require("cors")
 const Person = require("./mongo");
-const {findAllPersons, createPerson, deletePerson} = require("./mongo");
+const {findAllPersons, createPerson, deletePerson, findPersonById} = require("./mongo");
 let persons =
     [
         {
@@ -39,6 +39,16 @@ app.use(requestLogger)
 
 app.use(cors())
 app.use(express.json())
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+app.use(errorHandler)
 
 
 app.get('/', (request, response) => {
@@ -57,9 +67,9 @@ app.get('/info', (request, response) => {
     response.send(info)
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id',async (request, response) => {
     const id = request.params.id
-    const person = persons.find(p => p.id == id)
+    const person = await findPersonById(id)
     if (person) {
         response.json(person)
     } else {
@@ -67,14 +77,14 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
-app.delete('/api/persons/:id',async (req, res) => {
+app.delete('/api/persons/:id',async (req, res, next) => {
     const id = req.params.id
     const deleted = await deletePerson(id)
 
     if (deleted) {
         res.sendStatus(200)
     } else {
-        res.sendStatus(404)
+        next("Person not found")
     }
 })
 
@@ -82,7 +92,8 @@ app.post('/api/persons/', async (req, res) => {
     const name = req.body.name
     const number = req.body.number
     if (!name || !number) {
-        res.status(400).send({error: 'name and phone must be provided'})
+        // res.status(400).send({error: 'name and phone must be provided'})
+        next("Person not found")
         return
     } else {
         const newPerson = {name, number}
