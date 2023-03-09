@@ -18,5 +18,11 @@ const personSchema = new mongoose.Schema({
 })
 
 const Person = mongoose.model('Person', personSchema)
-
-module.exports = Person
+const  findAllPersons = async () => {
+    return Person.find({})
+};
+const createPerson = async ({name, number}) => {
+    const newPerson = new Person({name, number})
+    await newPerson.save()
+}
+module.exports = {Person, findAllPersons, createPerson}

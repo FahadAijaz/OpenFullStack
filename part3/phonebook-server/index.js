@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require("cors")
 const Person = require("./mongo");
+const {findAllPersons, createPerson} = require("./mongo");
 let persons =
     [
         {
@@ -44,8 +45,11 @@ app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/persons', (request, response) => {
-    Person.find({}).then(r => response.json(r))
+
+
+app.get('/api/persons', async (request, response) => {
+    let persons = await findAllPersons()
+    response.json(persons)
 })
 app.get('/info', (request, response) => {
     const info = `Phonebook has info for ${persons.length} people \n
@@ -75,21 +79,16 @@ app.delete('/api/persons/:id', (req, res) => {
     }
 })
 
-app.post('/api/persons/', (req, res) => {
+app.post('/api/persons/', async (req, res) => {
     const newId = Math.floor(Math.random() * 1000)
     const name = req.body.name
     const number = req.body.number
     if (!name || !number) {
-        res.status(400).send({error: 'name must be unique'})
+        res.status(400).send({error: 'name and phone must be provided'})
         return
     } else {
-        const personExists = persons.find(p => p.name == name)
-        if (personExists) {
-            res.status(400).send({error: 'name must be unique'})
-            return
-        }
-        const newPerson = {name: name, number: number, id: newId}
-        persons.push(newPerson)
+        const newPerson = {name, number}
+        await createPerson(newPerson)
         res.json(newPerson)
     }
 })
