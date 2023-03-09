@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require("cors")
+const Person = require("./mongo");
 let persons =
     [
         {
@@ -43,7 +45,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(r => response.json(r))
 })
 app.get('/info', (request, response) => {
     const info = `Phonebook has info for ${persons.length} people \n
