@@ -19,5 +19,8 @@ const getAllBlogs =  async () =>  {
 const createBlog = async (blog) => {
     return blog.save()
 };
+const deleteBlog = async (blogId) => {
+    return Blog.deleteOne({_id: blogId})
+}
 
-module.exports = {Blog, getAllBlogs, createBlog}
+module.exports = {Blog, getAllBlogs, createBlog, deleteBlog}

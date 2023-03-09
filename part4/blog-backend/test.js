@@ -60,6 +60,27 @@ describe('test get all blogs', () => {
     })
 
 })
+describe('test delete blog', () => {
+    beforeAll(async () => {
+
+        await Blog.insertMany(blogs)
+    })
+    test('blog is deleted', async () => {
+        const blogId = blogs[0]._id
+
+        const response = await api
+            .delete(`/api/blogs/${blogId}`)
+        expect(response.status).toBe(200)
+
+        const blogFound = await Blog.find({_id: blogId})
+        expect(blogFound).toHaveLength(0)
+    })
+    afterAll(async () => {
+        const ids = blogs.map(b => b._id)
+        await Blog.deleteMany({_id: {$in: ids}})
+
+    })
+})
 describe('test create blog', () => {
     const newBlog = {title: "some new blog", author: "some new man", url: "www.google.com", likes: 3}
     test('new blog is created', async () => {
