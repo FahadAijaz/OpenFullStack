@@ -22,5 +22,8 @@ const createBlog = async (blog) => {
 const deleteBlog = async (blogId) => {
     return Blog.deleteOne({_id: blogId})
 }
+const updateBlog = async (blogId, likes) => {
+    return Blog.updateOne({_id: blogId}, {likes: likes})
+}
 
-module.exports = {Blog, getAllBlogs, createBlog, deleteBlog}
+module.exports = {Blog, getAllBlogs, createBlog, deleteBlog, updateBlog}

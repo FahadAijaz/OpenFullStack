@@ -96,3 +96,25 @@ describe('test create blog', () => {
         await Blog.deleteOne({title: newBlog.title})
     })
 })
+
+describe('test update blog', () => {
+    beforeAll(async () => {
+        await Blog.insertMany(blogs)
+    })
+    test('blog likes are updated', async () => {
+        const blogId = blogs[0]._id
+        const likes = blogs[0].likes + 1
+        const response = await api
+            .patch(`/api/blogs/${blogId}`)
+            .send({likes: likes})
+        expect(response.status).toBe(200)
+
+        const blogFound = await Blog.findOne({_id: blogId})
+        expect(blogFound.likes).toBe(likes)
+    })
+    afterAll(async () => {
+        const ids = blogs.map(b => b._id)
+        await Blog.deleteMany({_id: {$in: ids}})
+
+    })
+})
