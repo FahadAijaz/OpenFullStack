@@ -25,4 +25,7 @@ const createPerson = async ({name, number}) => {
     const newPerson = new Person({name, number})
     await newPerson.save()
 }
-module.exports = {Person, findAllPersons, createPerson}
+const deletePerson = async (id) => {
+    return Person.deleteOne({id: id})
+}
+module.exports = {Person, findAllPersons, createPerson, deletePerson}

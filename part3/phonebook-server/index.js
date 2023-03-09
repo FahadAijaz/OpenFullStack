@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require("cors")
 const Person = require("./mongo");
-const {findAllPersons, createPerson} = require("./mongo");
+const {findAllPersons, createPerson, deletePerson} = require("./mongo");
 let persons =
     [
         {
@@ -67,12 +67,11 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id',async (req, res) => {
     const id = req.params.id
-    const oldLen = persons.length
-    persons = persons.filter(p => p.id != id)
-    const newLen = persons.length
-    if (oldLen != newLen) {
+    const deleted = await deletePerson(id)
+
+    if (deleted) {
         res.sendStatus(200)
     } else {
         res.sendStatus(404)
@@ -80,7 +79,6 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons/', async (req, res) => {
-    const newId = Math.floor(Math.random() * 1000)
     const name = req.body.name
     const number = req.body.number
     if (!name || !number) {
