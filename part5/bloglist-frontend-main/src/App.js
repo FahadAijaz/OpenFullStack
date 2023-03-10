@@ -7,23 +7,36 @@ import loginService from './services/login'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [user, setUser] = useState(null)
-    const [errorMessage, setErrorMessage] = useState(null)
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+
+    }
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
-  
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogUser')
+    setUser(null)
+  }
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
       })
       setUser(user)
+      window.localStorage.setItem(
+        'loggedBlogUser', JSON.stringify(user)
+      )
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -37,7 +50,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -46,7 +59,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -54,17 +67,21 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
-  if (user === null){
-    return(<div>{loginForm()}</div>)
+  if (user === null) {
+    return (<div>{loginForm()}</div>)
   }
-  return ( 
+  return (
     <div>
       <h2>blogs</h2>
-      {blogs.map(blog =>
+      <p>
+        {user.username} logged in <button type="submit" onClick={handleLogout}>logout</button>
+      </p>
+
+      <div>{blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
-      )}
+      )}</div>
     </div>
   )
 }
