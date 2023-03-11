@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogInput from './components/BlogInput'
 import blogService from './services/blogs'
-import Login from './components/Login'
 import loginService from './services/login'
+import AllBlogs from './components/AllBlogs'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -25,6 +26,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
+    setErrorMessage(null)
   }
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -40,7 +42,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -70,18 +72,20 @@ const App = () => {
     </form>
   )
   if (user === null) {
-    return (<div>{loginForm()}</div>)
+    return (<div>
+      <Notification className="error" errorMessage={errorMessage}/>
+      <div>{loginForm()}</div>
+      </div>)
   }
   return (
     <div>
       <h2>blogs</h2>
+      <Notification className="success" errorMessage={errorMessage} />
       <p>
         {user.username} logged in <button type="submit" onClick={handleLogout}>logout</button>
       </p>
-
-      <div>{blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}</div>
+      <BlogInput blogs={blogs} setBlogs={setBlogs} user={user} setErrorMessage={setErrorMessage} />
+      <AllBlogs blogs={blogs} />
     </div>
   )
 }

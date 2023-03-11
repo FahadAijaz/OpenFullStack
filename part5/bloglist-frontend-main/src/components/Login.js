@@ -12,6 +12,7 @@ const Login = () => {
             const user = await loginService.login({
                 username, password,
             })
+            console.log(user)
             setUser(user)
             setUsername('')
             setPassword('')
