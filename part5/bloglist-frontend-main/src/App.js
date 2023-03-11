@@ -78,6 +78,7 @@ const App = () => {
       <div>{loginForm()}</div>
     </div>)
   }
+  // exercise 5.6
   return (
     <div>
       <h2>blogs</h2>
