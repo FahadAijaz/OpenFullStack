@@ -14,7 +14,7 @@ const BlogInput = ({ blogs, setBlogs, user, setErrorMessage }) => {
 
         
         const createdBlog = await blogService.createBlog(user.token, newBlog)
-        blogs.push(newBlog)
+        blogs.push(createdBlog)
         const newBlogs = [...blogs]
         setBlogs(newBlogs)
         console.log('hello', createdBlog)

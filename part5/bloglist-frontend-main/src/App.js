@@ -86,7 +86,7 @@ const App = () => {
       <p>
         {user.username} logged in <button type="submit" onClick={handleLogout}>logout</button>
       </p>
-      <Togglable buttonLabel="new note">
+      <Togglable buttonLabel="new note" cancelButton="cancel">
         <BlogInput blogs={blogs} setBlogs={setBlogs} user={user} setErrorMessage={setErrorMessage} />
       </Togglable>
       <AllBlogs blogs={blogs} />
