@@ -42,7 +42,7 @@ const mongoUrl = 'mongodb://localhost/bloglist'
 mongoose.connect(mongoUrl)
 
 const getAllBlogs = async () => {
-     return Blog.find({}).populate('user')
+     return Blog.find({}).populate('user').sort({likes: -1})
 }
 
 const createBlog = async (blog) => {

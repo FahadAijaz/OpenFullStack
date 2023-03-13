@@ -89,7 +89,7 @@ const App = () => {
       <Togglable buttonLabel="new note" cancelButton="cancel">
         <BlogInput blogs={blogs} setBlogs={setBlogs} user={user} setErrorMessage={setErrorMessage} />
       </Togglable>
-      <AllBlogs blogs={blogs} />
+      <AllBlogs blogs={blogs} setBlogs={setBlogs} />
 
     </div>
   )
