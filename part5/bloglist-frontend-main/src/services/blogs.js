@@ -15,5 +15,11 @@ const createBlog = (token, newBlog) => {
   const request = axios.post(baseUrl, newBlog, config)
   return request.then(response => response.data)
 }
+
+const updateLikes = async (blogId, likes) => {
+  console.log(likes)
+  const request = await axios.patch(baseUrl+`/${blogId}`, {likes: likes})
+  return request.data
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, createBlog }
+export default { getAll, createBlog, updateLikes }

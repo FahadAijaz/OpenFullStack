@@ -59,9 +59,13 @@ app.post('/api/blogs', async (request, response) => {
 })
 
 app.patch('/api/blogs/:id', async (req, res) => {
+
     const blogId = req.params.id
+
     const likes = req.body.likes
     const updatedBlog = await updateBlog(blogId, likes)
+    console.log(blogId)
+    console.log(updatedBlog)
     if (updatedBlog.modifiedCount ==1){
         res.send(200)
     }
