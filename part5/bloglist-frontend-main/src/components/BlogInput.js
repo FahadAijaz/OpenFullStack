@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types';
+
 const BlogInput = ({ blogs, setBlogs, user, setErrorMessage }) => {
-    let [title, setTitle] = useState(null)
-    let [author, setAuthor] = useState(null)
-    let [url, setUrl] = useState(null)
+    let [title, setTitle] = useState('')
+    let [author, setAuthor] = useState('')
+    let [url, setUrl] = useState('')
     const handleCreate = async (event) => {
         event.preventDefault()
         const newBlog = {
@@ -12,12 +14,10 @@ const BlogInput = ({ blogs, setBlogs, user, setErrorMessage }) => {
             url: url
         }
 
-        
+
         const createdBlog = await blogService.createBlog(user.token, newBlog)
-        blogs.push(createdBlog)
-        const newBlogs = [...blogs]
+        const newBlogs = [...blogs, createdBlog]
         setBlogs(newBlogs)
-        console.log('hello', createdBlog)
         setErrorMessage(`a new blog ${title} by ${author} added`)
     }
     return (<div>
@@ -37,5 +37,11 @@ const BlogInput = ({ blogs, setBlogs, user, setErrorMessage }) => {
             <button type="submit">create</button>
         </form>
     </div>)
+}
+BlogInput.propTypes = {
+    blogs: PropTypes.array,
+    setBlogs: PropTypes.func,
+    user: PropTypes.object,
+    setErrorMessage: PropTypes.func
 }
 export default BlogInput
