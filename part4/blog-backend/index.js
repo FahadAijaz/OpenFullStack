@@ -48,7 +48,7 @@ app.post('/api/blogs', async (request, response) => {
         return response.status(401).json({ error: 'token invalid' })
     }
     const user = await User.findById(decodedToken.id)
-    const blog = new Blog({...request.body, user: new User({username: user.username, name: user.name, id: user._id})})
+    const blog = new Blog({...request.body, user: user._id})
     const created = await createBlog(blog);
     if(created){
       response.json(blog)
@@ -59,9 +59,13 @@ app.post('/api/blogs', async (request, response) => {
 })
 
 app.patch('/api/blogs/:id', async (req, res) => {
+
     const blogId = req.params.id
+
     const likes = req.body.likes
     const updatedBlog = await updateBlog(blogId, likes)
+    console.log(blogId)
+    console.log(updatedBlog)
     if (updatedBlog.modifiedCount ==1){
         res.send(200)
     }
