@@ -12,6 +12,7 @@ const AllBlogs = ({ blogs, setBlogs }) => {
         const likes = blog.likes + 1
         await blogService.updateLikes(blogId, likes)
         blog.likes = likes
+        console.log(likes)
         setChangeNumber(changeNumber + 1)
     }
     const handleRemoveBlog = (blogId) => async () => {
@@ -24,7 +25,7 @@ const AllBlogs = ({ blogs, setBlogs }) => {
     return (<div>{blogs.map(blog =>
         <div key={blog._id} className="blog">
             <Blog blog={blog} />
-            <BlogDetails handleLike={handleLike} blog={blog} handleRemoveBlog={handleRemoveBlog} />
+            <BlogDetails handleLike={handleLike(blog)} blog={blog} handleRemoveBlog={handleRemoveBlog} />
         </div>
     )}
     </div>

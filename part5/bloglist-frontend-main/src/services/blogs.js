@@ -17,7 +17,6 @@ const createBlog = (token, newBlog) => {
 }
 
 const updateLikes = async (blogId, likes) => {
-  console.log(likes)
   const request = await axios.patch(baseUrl + `/${blogId}`, { likes: likes })
   return request.data
 }
